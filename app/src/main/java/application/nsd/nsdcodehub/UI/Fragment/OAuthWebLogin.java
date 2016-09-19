@@ -13,6 +13,7 @@ import android.webkit.WebViewClient;
 
 import java.util.Map;
 
+import application.nsd.nsdcodehub.Controller.Network.NSDGitClient.INSDCompletion;
 import application.nsd.nsdcodehub.Controller.Network.NSDGitClient.NSDGitManager;
 import application.nsd.nsdcodehub.Controller.Network.NSDUtils;
 import application.nsd.nsdcodehub.R;
@@ -20,14 +21,14 @@ import application.nsd.nsdcodehub.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Launch extends Fragment {
+public class OAuthWebLogin extends Fragment {
 
 
     private View rootView = null;
     private WebView webView = null;
 
 
-    public Launch() {
+    public OAuthWebLogin() {
         // Required empty public constructor
     }
 
@@ -45,10 +46,26 @@ public class Launch extends Fragment {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                if(url.contains("nsdgitclient://")){
                    Log.e("NSD auth code accept","  " + url);
-                   Map<String,String> respMap = NSDUtils.ParamsUrlCoder.decode(url);
+                   Map<String,String> respMap = null;
+                   try {
+                       respMap = NSDUtils.ParamsUrlCoder.decode(url);
+                   } catch (Exception e) {
+                       e.printStackTrace();
+                   }
 
                    if(respMap.containsKey("code")){
                        Log.e("NSD req code",respMap.get("code"));
+                       NSDGitManager.processedReqCodeAndSetToken(respMap, new INSDCompletion() {
+                           @Override
+                           public void Completion(Map<String, String> responseMap) {
+
+                           }
+
+                           @Override
+                           public void onError(String errorDescription) {
+
+                           }
+                       });
                    }
 
 

@@ -1,11 +1,9 @@
 package application.nsd.nsdcodehub.Controller.Network;
 
-import android.app.Notification;
-import android.util.Log;
-
+import java.net.URLDecoder;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.NavigableMap;
 
 /**
  * Created by NSD on 9/19/16.
@@ -31,69 +29,18 @@ public class NSDUtils {
 
         }
 
-        public static Map<String,String> decode(String url){
+        public static Map<String,String> decode(String url) {
             Map<String,String> retVal = new HashMap<>();
-
-            String paramsWithoutURL = "";
-
-            int i = 0;
-            while (paramsWithoutURL.equals("")){
-
-                if(url.charAt(i)=='?'){
-                    paramsWithoutURL = url.substring(i+1,url.length());
-                }
-                i++;
-
+            if(url.contains("?")){
+                url = url.substring(url.indexOf('?')+1);
             }
-            Log.e("NSD decode"," "+ paramsWithoutURL);
-
-            i=0;
-            while(i < paramsWithoutURL.length()){
-
-                if(paramsWithoutURL.charAt(i)=='='){
-                    String tempKey = paramsWithoutURL.substring(0,i);
-                    String tempVal = "";
-
-                        try {
-
-                            int j = i;
-                            while (tempVal.equals("") || j >= paramsWithoutURL.length()) {
-                                if (paramsWithoutURL.charAt(j) == '&') {
-                                    tempVal = paramsWithoutURL.substring(i, j);
-                                    i = j;
-                                    break;
-                                }
-                                j++;
-                            }
-                        }
-                        catch (Exception e){
-                           tempVal = paramsWithoutURL.substring(i+1,paramsWithoutURL.length()) ;
-
-                        }
-
-
-
-//                    Log.e("NSD tempKey"," "+tempKey);
-//                    Log.e("NSD tempVal"," "+tempVal);
-
-                    retVal.put(tempKey,tempVal);
-
-
-
-
-                }
-
-                i++;
-
-
+            String[] pairs = url.split("&");
+            for(int i=0;i<pairs.length;i++){
+                int index = pairs[i].indexOf('=');
+                retVal.put(pairs[i].substring(0,index),pairs[i].substring(index+1));
             }
-
-
 
             return retVal;
-
         }
-
     }
-
 }

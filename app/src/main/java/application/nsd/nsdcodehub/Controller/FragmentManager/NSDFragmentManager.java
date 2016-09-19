@@ -28,7 +28,7 @@ public class NSDFragmentManager {
 
 
     public static void Init(Activity activity){
-            NSDFragmentManager temp = NSDFragmentManager.getInstance();
+            NSDFragmentManager.getInstance();
             instance.activity = activity;
             instance.fragmentManager = activity.getFragmentManager();
 
@@ -36,9 +36,7 @@ public class NSDFragmentManager {
 
     public static void setFragment(int containerViewId, Fragment fragment, boolean addToBackStack) {
             FragmentTransaction fragmentTransaction = getInstance().fragmentManager.beginTransaction();
-
-
-            fragmentTransaction.replace(containerViewId, fragment);
+                    fragmentTransaction.replace(containerViewId, fragment);
 
             if (addToBackStack) {
                 fragmentTransaction.addToBackStack(null);

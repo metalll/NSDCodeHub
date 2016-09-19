@@ -2,11 +2,11 @@ package application.nsd.nsdcodehub.UI.Activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.ParcelUuid;
 
 import application.nsd.nsdcodehub.Controller.FragmentManager.NSDFragmentManager;
+import application.nsd.nsdcodehub.Controller.PreferencesManager.NSDSharedPreferencesController;
 import application.nsd.nsdcodehub.R;
-import application.nsd.nsdcodehub.UI.Fragment.Launch;
+import application.nsd.nsdcodehub.UI.Fragment.OAuthWebLogin;
 
 public class MainActivity extends Activity {
 
@@ -22,7 +22,13 @@ public class MainActivity extends Activity {
 
         //initSingletones;
         NSDFragmentManager.Init(this);
-        NSDFragmentManager.setFragment(ROOT_COUNTAINER,new Launch(),YES);
+        NSDSharedPreferencesController.Init(this);
+
+
+
+
+
+        NSDFragmentManager.setFragment(ROOT_COUNTAINER,new OAuthWebLogin(),YES);
 
     }
 }
